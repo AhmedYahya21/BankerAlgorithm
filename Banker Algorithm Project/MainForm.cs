@@ -68,7 +68,8 @@ namespace Banker_Algorithm_Project
 
         private void numberOfProcesses_button_Click(object sender, EventArgs e)
         {
-            intializeListOfProcesses();
+            if (!intializeListOfProcesses())
+                return;
             // hide unneeded controls for second input
             {
                 numberOfProcesses_Label.Visible = false;
@@ -88,7 +89,8 @@ namespace Banker_Algorithm_Project
 
         private void addResource_button_Click(object sender, EventArgs e)
         {
-            addResourceToListOfResources();
+            if (!addResourceToListOfResources())
+                return;
             // clear to take another input
             resourceName_textBox.Clear();
             totalNumberOfResource_textBox.Clear();
@@ -96,7 +98,8 @@ namespace Banker_Algorithm_Project
 
         private void confirm_button_Click(object sender, EventArgs e)
         {
-            constructTables();
+            if(!constructTables())
+                return;
             //hide unneeded controls for third input
             {
                 resourceName_label.Visible = false;
@@ -123,10 +126,15 @@ namespace Banker_Algorithm_Project
 
         private void confirmTable_button_Click(object sender, EventArgs e)
         {
-            checkTableCellsNonEmptyAndValid();
+            if(!checkTableCellsNonEmptyAndValid())
+                return;
+
             intializeArraysFromTables();
-            checkcurrentNotExceedsTotal();
-            checkcurrentNotExceedsMaximumNeeded();
+
+            if (!checkcurrentNotExceedsTotal())
+                return;
+            if (!checkcurrentNotExceedsMaximumNeeded())
+                return;
 
             // hide unneeded controls for fourth input
             {
@@ -213,7 +221,8 @@ namespace Banker_Algorithm_Project
                 string r = "";
                 int n = 0;
 
-                checkUserAssumptionIsValid(ref p ,ref r ,ref n);
+                if (!checkUserAssumptionIsValid(ref p, ref r, ref n))
+                    return;
                 BankerAlgorithm.assumeProcessRequestedResource(p , r, n);
             }
             else
@@ -245,7 +254,7 @@ namespace Banker_Algorithm_Project
         // helper functions 
         // these functions used to read user input and to validate user input
 
-        void intializeListOfProcesses()
+        bool intializeListOfProcesses()
         {
             //check number of processes is a Number and Valid  (int && size > 0), if not return error message to user
             int size = 0;
@@ -256,14 +265,14 @@ namespace Banker_Algorithm_Project
                 {
                     MessageBox.Show("Please, Enter a Valid Number");
                     numberOfProcesses_textBox.Clear();
-                    return;
+                    return false;
                 }
             }
             catch (FormatException)
             {
                 MessageBox.Show("Please, Enter a Number");
                 numberOfProcesses_textBox.Clear();
-                return;
+                return false;
             }
 
             // make list of processes from p1 to pn
@@ -271,9 +280,10 @@ namespace Banker_Algorithm_Project
             {
                 listOfProcesses.AddLast("P" + (i + 1));
             }
+            return true;
         }
 
-        void addResourceToListOfResources()
+        bool addResourceToListOfResources()
         {
             string name = null;
             int totalNumber = 0;
@@ -283,7 +293,7 @@ namespace Banker_Algorithm_Project
             {
                 MessageBox.Show("Please, Enter a Valid Resource Name");
                 resourceName_textBox.Clear();
-                return;
+                return false;
             }
             else
                 name = resourceName_textBox.Text;
@@ -296,14 +306,14 @@ namespace Banker_Algorithm_Project
                 {
                     MessageBox.Show("Please, Enter a Valid Number");
                     totalNumberOfResource_textBox.Clear();
-                    return;
+                    return false;
                 }
             }
             catch (FormatException)
             {
                 MessageBox.Show("Please, Enter a Number");
                 totalNumberOfResource_textBox.Clear();
-                return;
+                return false;
             }
 
             //check if there is a resource with the same name (duplicate), if not return error message to user
@@ -314,15 +324,16 @@ namespace Banker_Algorithm_Project
                     MessageBox.Show("You Have Already Added a Resource With The Same Name!");
                     resourceName_textBox.Clear();
                     totalNumberOfResource_textBox.Clear();
-                    return;
+                    return false;
                 }
             }
 
             // add the resource to the list of resources
             listOfResources.AddLast(new Resource(name, totalNumber));
+            return true;
         }
 
-        void constructTables()
+        bool constructTables()
         {
             // check if there is at least one resource added, if not return error message to user
             if (listOfResources.Count == 0)
@@ -330,7 +341,7 @@ namespace Banker_Algorithm_Project
                 MessageBox.Show("Please, Add at Least One Resource");
                 resourceName_textBox.Clear();
                 totalNumberOfResource_textBox.Clear();
-                return;
+                return false;
             }
 
             //construct tables needed for third input (total resources , current allocated resources , maximum needed resources)
@@ -366,9 +377,11 @@ namespace Banker_Algorithm_Project
                 for (int i = 0; i < listOfResources.Count; i++)
                     totalResources_table.Rows[0].Cells[i + 1].Value = listOfResources.ElementAt(i).Number;
             }
+
+            return true;
         }
 
-        void checkTableCellsNonEmptyAndValid()
+        bool checkTableCellsNonEmptyAndValid()
         {
             // check cells are not empty and contain valid numbers in both tables (current allocated resources , maximum needed resources)
             for (int i = 1; i < currentAllocatedResources_table.Columns.Count; i++)
@@ -380,22 +393,23 @@ namespace Banker_Algorithm_Project
                         if (currentAllocatedResources_table.Rows[j].Cells[i].Value == null || int.Parse(currentAllocatedResources_table.Rows[j].Cells[i].Value.ToString()) < 0)
                         {
                             MessageBox.Show("Please, Fill All Cells in The Current Allocated Table With Valid Numbers");
-                            return;
+                            return false;
                         }
 
                         if (maxNeededResources_table.Rows[j].Cells[i].Value == null || int.Parse(maxNeededResources_table.Rows[j].Cells[i].Value.ToString()) < 0)
                         {
                             MessageBox.Show("Please, Fill All Cells in The Maximum Needed Resources Table With Valid Numbers");
-                            return;
+                            return false;
                         }
                     }
                     catch (FormatException)
                     {
                         MessageBox.Show("Please, Be Sure That All Cells Holds Valid Numbers");
-                        return;
+                        return false;
                     }
                 }
             }
+            return true;
         }
 
         void intializeArraysFromTables()
@@ -426,7 +440,7 @@ namespace Banker_Algorithm_Project
             }
         }
 
-        void checkcurrentNotExceedsTotal()
+        bool checkcurrentNotExceedsTotal()
         {
             // check if current allocated table doesn't exceed total number of resources, if not return error message to user
             //  total - current allocation must be >= 0
@@ -442,13 +456,14 @@ namespace Banker_Algorithm_Project
                 if (listOfResources.ElementAt(i - 1).Number - currentRequiredResources < 0)
                 {
                     MessageBox.Show("Resource " + listOfResources.ElementAt(i - 1).Name + " in The Current Allocated Resources Exceeded It's Total Number Of Resources");
-                    return;
+                    return false;
                 }
                 currentRequiredResources = 0;
             }
+            return true;
         }
 
-        void checkcurrentNotExceedsMaximumNeeded()
+        bool checkcurrentNotExceedsMaximumNeeded()
         {
             // check if current allocated resources table doesn't exceed maximum needed resources table, if not return error message to user
             //maximumNeeded - currentAllocated >= 0
@@ -466,11 +481,12 @@ namespace Banker_Algorithm_Project
                 if (maxRequiredResources - currentRequiredResources < 0)
                 {
                     MessageBox.Show("Resource " + listOfResources.ElementAt(i - 1).Name + " in The Current Allocated Resources Exceeded The Maximum Needed Of Resources");
-                    return;
+                    return false;
                 }
                 currentRequiredResources = 0;
                 maxRequiredResources = 0;
             }
+            return true;
         }
 
         void intializeComboBox()
@@ -504,7 +520,7 @@ namespace Banker_Algorithm_Project
             }
         }
 
-        void checkUserAssumptionIsValid(ref string p, ref string r, ref int n)
+        bool checkUserAssumptionIsValid(ref string p, ref string r, ref int n)
         {
             p = selectProcess_comboBox.Text.ToString();
             r = selectResource_comboBox.Text.ToString();
@@ -513,12 +529,12 @@ namespace Banker_Algorithm_Project
             if (string.IsNullOrEmpty(p) || string.IsNullOrWhiteSpace(p))
             {
                 MessageBox.Show("Please, Select a Process");
-                return;
+                return false;
             }
             if (string.IsNullOrEmpty(r) || string.IsNullOrWhiteSpace(r))
             {
                 MessageBox.Show("Please, Select a Resource");
-                return;
+                return false;
             }
             try
             {
@@ -528,14 +544,14 @@ namespace Banker_Algorithm_Project
                 {
                     MessageBox.Show("Please, Enter a Valid Number");
                     addNumber_textBox.Clear();
-                    return;
+                    return false;
                 }
             }
             catch (FormatException)
             {
                 MessageBox.Show("Please, Enter a Number");
                 addNumber_textBox.Clear();
-                return;
+                return false;
             }
 
             // check if current > total listOfResources ?
@@ -561,16 +577,17 @@ namespace Banker_Algorithm_Project
                     {
                         MessageBox.Show("Can't Apply The Requested Resources as Current Allocated Resources Will Be Greater Than The Total Number of Resources");
                         addNumber_textBox.Clear();
-                        return;
+                        return false;
                     }
                     if (current + n > max)
                     {
                         MessageBox.Show("Can't Apply The Requested Resources as Current Allocated Resources Will Be Greater Than The Maximum Needed Resources");
                         addNumber_textBox.Clear();
-                        return;
+                        return false;
                     }
                 }
             }
+            return true;
         }
 
         void showSteps()

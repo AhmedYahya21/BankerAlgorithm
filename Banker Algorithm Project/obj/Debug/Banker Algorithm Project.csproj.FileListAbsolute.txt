@@ -9,3 +9,14 @@ C:\Users\ahmed\Downloads\Banker Algorithm Project\Banker Algorithm Project\obj\D
 C:\Users\ahmed\Downloads\Banker Algorithm Project\Banker Algorithm Project\obj\Debug\Banker Algorithm Project.exe
 C:\Users\ahmed\Downloads\Banker Algorithm Project\Banker Algorithm Project\obj\Debug\Banker Algorithm Project.pdb
 C:\Users\ahmed\Downloads\Banker Algorithm Project\Banker Algorithm Project\obj\Debug\Banker_Algorithm_Project.MainForm.resources
+D:\Documents\Visual Studio 2022\Banker Algorithm Project\Banker Algorithm Project\bin\Debug\Banker Algorithm Project.exe.config
+D:\Documents\Visual Studio 2022\Banker Algorithm Project\Banker Algorithm Project\bin\Debug\Banker Algorithm Project.exe
+D:\Documents\Visual Studio 2022\Banker Algorithm Project\Banker Algorithm Project\bin\Debug\Banker Algorithm Project.pdb
+D:\Documents\Visual Studio 2022\Banker Algorithm Project\Banker Algorithm Project\obj\Debug\Banker Algorithm Project.csproj.AssemblyReference.cache
+D:\Documents\Visual Studio 2022\Banker Algorithm Project\Banker Algorithm Project\obj\Debug\Banker Algorithm Project.csproj.SuggestedBindingRedirects.cache
+D:\Documents\Visual Studio 2022\Banker Algorithm Project\Banker Algorithm Project\obj\Debug\Banker_Algorithm_Project.MainForm.resources
+D:\Documents\Visual Studio 2022\Banker Algorithm Project\Banker Algorithm Project\obj\Debug\Banker_Algorithm_Project.Properties.Resources.resources
+D:\Documents\Visual Studio 2022\Banker Algorithm Project\Banker Algorithm Project\obj\Debug\Banker Algorithm Project.csproj.GenerateResource.cache
+D:\Documents\Visual Studio 2022\Banker Algorithm Project\Banker Algorithm Project\obj\Debug\Banker Algorithm Project.csproj.CoreCompileInputs.cache
+D:\Documents\Visual Studio 2022\Banker Algorithm Project\Banker Algorithm Project\obj\Debug\Banker Algorithm Project.exe
+D:\Documents\Visual Studio 2022\Banker Algorithm Project\Banker Algorithm Project\obj\Debug\Banker Algorithm Project.pdb
